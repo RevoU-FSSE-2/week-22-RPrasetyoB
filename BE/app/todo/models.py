@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, Integer, DateTime, Boolean
+from sqlalchemy import Enum
+from sqlalchemy import Column, String, Integer, Date, Boolean
 from datetime import datetime, timedelta
 from app.infrastructure.db import db
 
@@ -9,7 +10,12 @@ class Todo(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     todo = Column(String, nullable=False)
     status = Column(String, default="in progress", nullable=False)
-    priority = Column(String, nullable=False)
-    due_date = Column(DateTime, default=datetime.utcnow() + timedelta(days=3), nullable=False)
+    priority = Column(Enum('high', 'medium', 'low', name='priority_enum'), nullable=False)
+    due_date = Column(Date, default=datetime.utcnow().date() + timedelta(days=3), nullable=False)
     maker = Column(String)
-    is_deleted = Column(Boolean)
+    is_deleted = Column(Boolean, default=False)
+
+
+    @property
+    def formatted_due_date(self):
+        return self.due_date.strftime('%d/%m/%Y')

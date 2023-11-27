@@ -1,5 +1,6 @@
 import jwt
 from flask import request
+from app.common.jwt import SECRET_KEY
 
 def get_token():
     auth_header = request.headers.get('Authorization')
@@ -10,7 +11,7 @@ def get_token():
     token = auth_header.split(' ')[1]
     
     try:
-        decoded_token = jwt.decode(token, 'your_jwt_secret_key', algorithms=['HS256'])
+        decoded_token = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         return decoded_token
     except jwt.ExpiredSignatureError:
         print('Token has expired')
