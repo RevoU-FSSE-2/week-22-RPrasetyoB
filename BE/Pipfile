@@ -12,6 +12,8 @@ injector = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
 flask-sqlalchemy = "*"
+flask-talisman = "*"
+secure = "*"
 
 [dev-packages]
 
