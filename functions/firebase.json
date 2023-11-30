@@ -3,7 +3,21 @@
     {
       "source": "src",
       "codebase": "week22-rpb",
-      "ignore": ["venv", ".git", "firebase-debug.log", "firebase-debug.*.log"]
+      "ignore": [
+        "venv",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ]
     }
-  ]
+  ],
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": false
+    },
+    "singleProjectMode": true
+  }
 }

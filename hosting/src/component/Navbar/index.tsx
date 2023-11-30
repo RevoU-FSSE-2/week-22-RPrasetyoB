@@ -20,7 +20,7 @@ const Navbar: React.FC= ()=> {
             <div className="navbar" style={{width: '100%'}}>
                 <div className="container-fluid" style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
                     <span className="navbar-text text">
-                        RPB Milestone 3
+                        RPB Milestone 4
                     </span>
                     <div style={{display: 'flex', gap: 20 }}>
                         <span className="navbar-text text">Hello! &nbsp;{user?.username}&nbsp;({user?.role})</span>

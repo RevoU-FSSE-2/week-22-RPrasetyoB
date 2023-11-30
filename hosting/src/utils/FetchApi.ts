@@ -10,8 +10,8 @@ interface LoginValue {
 
 interface RegisterValue {
   username: string,
-  email: string,
-  password: string
+  password: string,
+  role: string
 }
 
 interface EditList {

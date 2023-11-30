@@ -1,24 +1,22 @@
 import { useState } from 'react';
 import { Form, Formik, useFormik } from 'formik';
-import { Button, TextField, Card, Typography, CardContent } from '@mui/material';
+import { Button, TextField, Card, Typography, CardContent, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
 import useFetchApi from '../../utils/FetchApi'
+import { resolveTimeFormat } from '@mui/x-date-pickers/internals/utils/time-utils';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Name is Required'),
-    email: Yup.string()
-        .email('Invalid email')
-        .required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters long')
         .required('Password is required')
 });
 
 const initialValues = {
   username: '',
-  email: '',
   password: '',
+  role: '',
 };
 
 const Register = () => {
@@ -28,8 +26,11 @@ const Register = () => {
 
   const handleSubmit = async (values : typeof initialValues) => {
     setIsLoading(true);
+    const newRole = values.role ? values.role : 'user'
+    const newValues = {username: values.username, password: values.password, role: newRole}
     try {
-      const response = await registerUser(values)      
+      const response = await registerUser(newValues)
+      console.log(response)   
       if (response?.ok) {
         Swal.fire({
           icon: 'success',
@@ -37,6 +38,12 @@ const Register = () => {
           text: 'Registered successfully, redirect to loginpage.',
         });        
         navigate('/')
+      } else if(response?.status == 400)  {
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration failure',
+          text: 'Username already taken',
+        });
       } else {
         Swal.fire({
           icon: 'error',
@@ -56,11 +63,11 @@ const Register = () => {
     }
   }
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
-    onSubmit: (values) => handleSubmit(values),
-  });
+  // const formik = useFormik({
+  //   initialValues: initialValues,
+  //   validationSchema: validationSchema,
+  //   onSubmit: (values) => handleSubmit(values),
+  // });
 
   return (
     <>
@@ -76,6 +83,7 @@ const Register = () => {
           handleChange,
           handleBlur,
           isSubmitting,
+          values
         }) => (
           <Card style={{
             position: 'fixed',
@@ -103,19 +111,6 @@ const Register = () => {
                   sx={{ mb: 2 }}
                 />
                 <TextField
-                  label="Email"
-                  variant="outlined"
-                  name="email"
-                  placeholder='Enter email'
-                  fullWidth
-                  required
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={Boolean(touched.email && errors.email)}
-                  helperText={touched.email && errors.email}
-                  sx={{ mb: 2 }}
-                />
-                <TextField
                   label="Password"
                   variant="outlined"
                   name="password"
@@ -129,6 +124,20 @@ const Register = () => {
                   helperText={touched.password && errors.password}
                   sx={{ mb: 2 }}
                 />
+                <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
+                    <InputLabel htmlFor="role">Role</InputLabel>
+                    <Select
+                        label="Role"
+                        name="role"
+                        placeholder='Choose role'
+                        value={values.role}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    >
+                        <MenuItem value={"admin"}>Admin</MenuItem>
+                        <MenuItem value={"user"}>User</MenuItem>
+                    </Select>
+                </FormControl>
               </CardContent>              
               <Button
                 type='submit'

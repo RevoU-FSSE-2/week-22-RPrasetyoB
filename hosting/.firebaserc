@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "week22-rpb",
+    "week22-fe": "week22-rpb"
+  },
+  "targets": {},
+  "etags": {}
+}

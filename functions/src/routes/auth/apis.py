@@ -3,7 +3,7 @@ from flask_bcrypt import Bcrypt
 import jwt
 from datetime import datetime, timedelta
 from common.jwt import SECRET_KEY
-from marshmallow import Schema, fields, ValidationError, validates_schema
+from marshmallow import Schema, fields, ValidationError, validate, validates_schema
 from infrastructure.db import db
 from common.constants import UserRoleEnum
 from routes.user.models import User 
@@ -13,7 +13,7 @@ bcrypt = Bcrypt()
 
 class UserRegistrationSchema(Schema):
     username = fields.String(required=True, validate=lambda x: not User.query.filter_by(username=x).first(), error="Username already exists.")
-    password = fields.String(required=True)
+    password = fields.String(required=True, validate=validate.Length(min=6, error="Password must be at least 6 characters long."))
     role = fields.String(default=UserRoleEnum.USER.value)
 
     @validates_schema
