@@ -14,10 +14,10 @@ interface EditModalProps {
   open: boolean;
   onClose: () => void;
   editTodo: {
-    _id: string;
+    id: string;
     todo: string;
     status: string;
-    dueDate: string;
+    due_date: string;
     priority: string;
     maker: string;
   };
@@ -26,10 +26,10 @@ interface EditModalProps {
 }
 
 interface Todo {
-  _id: string;
+  id: string;
   todo: string;
   status: string;
-  dueDate: string;
+  due_date: string;
 }
 interface EditInputChangeEvent {
   target: {
@@ -44,27 +44,27 @@ const EditModal: React.FC<EditModalProps> = (props) => {
   const [newDueDate, setNewDueDate] = useState<Date | null>(null);
 
   useEffect(() => {
-    if (editTodo.dueDate) {
-      const parsedDueDate = new Date(editTodo.dueDate);
+    if (editTodo.due_date) {
+      const parsedDueDate = new Date(editTodo.due_date);
       setNewDueDate(parsedDueDate);
     }
-  }, [editTodo.dueDate]);
+  }, [editTodo.due_date]);
   
   const handleDatePickerChange = (date: Date | null) => {
     setNewDueDate(date);
   };
   
-  const todoItem = todolist.find((item) => item._id === editTodo._id)
-  const editTodoDueDate = new Date(editTodo.dueDate);
+  const todoItem = todolist.find((item) => item.id === editTodo.id)
+  const editTodoDueDate = new Date(editTodo.due_date);
   
   const handleEditSubmit = async () => {
     const token = useGetToken()
     const formattedDueDate = newDueDate ? format(newDueDate, "yyyy-MM-dd") : "";
     const newTodo = editTodo.todo ? editTodo.todo : todoItem?.todo;
     const newStatus = editTodo.status ? editTodo.status : todoItem?.status;
-    const newDate = formattedDueDate ? formattedDueDate : todoItem?.dueDate;
-    const body = { todo: newTodo, status: newStatus, dueDate: newDate };
-    const Url = ApiUrl + `/v1/todos/${editTodo._id}`;
+    const newDate = formattedDueDate ? formattedDueDate : todoItem?.due_date;
+    const body = { todo: newTodo, status: newStatus, due_date: newDate };
+    const Url = ApiUrl + `/todo/${editTodo.id}`;
   console.log(' editodo', editTodo)
     try {
       const response = await fetch(Url, {
@@ -84,23 +84,23 @@ const EditModal: React.FC<EditModalProps> = (props) => {
           text: "Todo edited successfully",
         });
         const updatedTodo = {
-          _id: editTodo._id,
+          id: editTodo.id,
           todo: newTodo || editTodo.todo,
           status: newStatus || editTodo.status,
-          dueDate: formattedDueDate || editTodo.dueDate,
+          due_date: formattedDueDate || editTodo.due_date,
           priority: editTodo.priority, 
           maker: editTodo.maker,
         };
         setTodolist((prevTodolist) =>
           prevTodolist.map((task) =>
-            task._id === updatedTodo._id ? updatedTodo : task
+            task.id === updatedTodo.id ? updatedTodo : task
           )
         );        
       } else if(response?.status === 403){
         Swal.fire({
           icon: "error",
           title: "Edit Failed",
-          text: "You Unauthorized to edit todo",
+          text: "You unauthorized to edit todo",
         });
       }
     } catch (error) {

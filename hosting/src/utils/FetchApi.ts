@@ -15,9 +15,9 @@ interface RegisterValue {
 }
 
 interface EditList {
-  _id: string;
+  id: string;
   todo: string;
-  dueDate: string;
+  due_date: string;
 }
 
 // const { todolist, setTodolist } = useContext(AppContext);
@@ -27,7 +27,7 @@ const useFetchApi = () => {
   
   const loginUser = async (values : LoginValue) => {
     try {
-      const Url = ApiUrl + '/v1/auth/login';
+      const Url = ApiUrl + '/auth/login';
       const response = await fetch(Url, {
         method: 'POST',
         headers: {
@@ -51,7 +51,7 @@ const useFetchApi = () => {
   
   const registerUser = async (values : RegisterValue) => {
     try {
-      const Url = ApiUrl + '/v1/auth/register';
+      const Url = ApiUrl + '/auth/register';
       const response = await fetch(Url, {
         method: 'POST',
         headers: {
@@ -73,7 +73,7 @@ const useFetchApi = () => {
   const fetchList = async () => {
     const token = useGetToken()
     try {
-      const Url = ApiUrl + '/v1/todos';
+      const Url = ApiUrl + '/todo';
       const response = await fetch(Url, {
         method: "GET",
         headers: {
@@ -90,7 +90,7 @@ const useFetchApi = () => {
   const deleteTask = async (id: string) => {
     const token = useGetToken()
     try {
-      const Url = ApiUrl + `/v1/todos/${id}`;
+      const Url = ApiUrl + `/todo/${id}`;
       const response = await fetch(Url, {
         method: "DELETE",
         headers: {

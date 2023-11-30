@@ -12,8 +12,15 @@ injector = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
 flask-sqlalchemy = "*"
+google-cloud-storage = "*"
+google-cloud-logging = "*"
+flask-cors = "*"
+flask-secure-headers = "*"
+flask-security-too = "*"
 flask-talisman = "*"
-secure = "*"
+flask-security = "*"
+firebase-functions = "*"
+gunicorn = "*"
 
 [dev-packages]
 

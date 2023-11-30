@@ -1,7 +1,7 @@
 from sqlalchemy import Enum
 from sqlalchemy import Column, String, Integer, Date, Boolean
 from datetime import datetime, timedelta
-from app.infrastructure.db import db
+from infrastructure.db import db
 
 
 class Todo(db.Model):

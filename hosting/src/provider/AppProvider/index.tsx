@@ -1,11 +1,11 @@
 import { ReactNode, createContext, useState, Dispatch, SetStateAction } from 'react';
 
 interface Todo {
-    _id: string;
+    id: string;
     todo: string;
     status: string;
     priority: string;
-    dueDate: string;
+    due_date: string;
     maker: string;
 }
 

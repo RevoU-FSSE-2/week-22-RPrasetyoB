@@ -23,10 +23,10 @@ import { EditModal } from "../../component";
 import { ApiUrl } from "../../utils/api";
 
 interface Todo {
-  _id: string;
+  id: string;
   todo: string;
   status: string;
-  dueDate: string;
+  due_date: string;
   priority: string;
   maker: string;
 }
@@ -57,7 +57,7 @@ const TableList: React.FC = () => {
   const [checked, setChecked] = useState(initialCheckedState);
   const [openBackdrop, setOpenBackdrop] = React.useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editTodo, setEditTodo] = useState({ _id: "", todo: "", status: "", dueDate: "", priority: "", maker: "" });
+  const [editTodo, setEditTodo] = useState({ id: "", todo: "", status: "", due_date: "", priority: "", maker: "" });
   const openEditModal = () => {
     setEditModalOpen(true);
   };
@@ -78,27 +78,49 @@ const TableList: React.FC = () => {
   };
   
   const deleteList = async (id: string) => {
-    const response = await deleteTask(id);
-    if (response?.ok) {
-      setTodolist((categories) =>
-      categories.filter((category) => category._id !== id)
-      );
+    // Use SweetAlert2 for confirmation
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      // User confirmed, proceed with the deletion
+      const response = await deleteTask(id);
+
+      if (response?.ok) {
+        setTodolist((categories) =>
+          categories.filter((category) => category.id !== id)
+        );
+        Swal.fire({
+          icon: "success",
+          title: "Todo Deleted",
+          text: "Successfully deleted task",
+        });
+      } else if (response?.status === 403) {
+        Swal.fire({
+          icon: "error",
+          title: "Delete Failed",
+          text: "You don't have authorization to delete the current todo",
+        });
+      }
+    } else {
+      // User canceled, show a message
       Swal.fire({
-        icon: "success",
-        title: "Task Delete",
-        text: "Successfully deleting task",
-      });
-    } else if (response?.status === 403) {
-      Swal.fire({
-        icon: "error",
-        title: "Delete Failed",
-        text: "You don't have authorization to delete the current task",
+        icon: "info",
+        title: "Cancelled",
+        text: "Your todo is safe :)",
       });
     }
   };
   
   const handleSubmit = async (values: AddCategory, {resetForm}: any) => {
-    const Url = ApiUrl + "/v1/todos";
+    const Url = ApiUrl + "/todo";
     const response = await fetch(Url, {
       method: "POST",
       headers: {
@@ -130,7 +152,7 @@ const TableList: React.FC = () => {
   const updateTodolist = (updatedTodo: any) => {
     setTodolist((prevTodolist) => {
       return prevTodolist.map((task) => {
-        if (task._id === updatedTodo._id) {
+        if (task.id === updatedTodo.id) {
           return updatedTodo;
         } else {
           return task;
@@ -139,8 +161,8 @@ const TableList: React.FC = () => {
     });
   };
 
-  const formatDueDate = (dueDate: string) => {
-    const parsedDueDate = new Date(dueDate);
+  const formatDueDate = (due_date: string) => {
+    const parsedDueDate = new Date(due_date);
     parsedDueDate.setDate(parsedDueDate.getDate());
     return format(parsedDueDate, 'MMM dd');
   };
@@ -163,10 +185,10 @@ const TableList: React.FC = () => {
 
   const editClick = (todo: Todo) => {
     const todoDetail = {
-      _id: todo._id,
+      id: todo.id,
       todo: todo.todo,
       status:todo.status,
-      dueDate: todo.dueDate,
+      due_date: todo.due_date,
       priority: todo.priority,
       maker: todo.maker
     }
@@ -212,7 +234,7 @@ const TableList: React.FC = () => {
         }) => (
           <Box sx={{ minWidth: 120 }}>
             <Form onSubmit={handleSubmit} style={{ width:'100%', display: 'flex', flexDirection: 'row',gap: 10, alignItems:'center', justifyContent: 'space-between', paddingLeft: 8, paddingRight: 8}}>
-              <TextField sx={{bgcolor: 'background.paper', height: 40, paddingBottom: 7, borderRadius: 2, width: '70%'}} label= "Add new todo" variant="filled"
+              <TextField sx={{bgcolor: 'background.paper', height: 56, borderRadius: 1, width: '70%'}} label= "Add new todo" variant="filled"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={Boolean(touched.todo && errors.todo)}
@@ -221,7 +243,7 @@ const TableList: React.FC = () => {
                 value={values.todo}
                 required
                 />
-              <FormControl sx={{ bgcolor: 'background.paper', borderRadius: 2, width: '25%'}} variant="filled">
+              <FormControl sx={{ bgcolor: 'background.paper', borderRadius: 1, width: '25%', maxHeight: 50, height:50, marginBottom:1}} variant="filled">
                 <InputLabel htmlFor="priority">priority</InputLabel>
                 <Select
                   sx={{bgcolor: 'background.paper'}}
@@ -244,7 +266,7 @@ const TableList: React.FC = () => {
         )}
       </Formik>
         
-        <List sx={{ width: '100%', minWidth: 450, bgcolor: 'background.paper', margin: 'auto', borderRadius: 5 }}>
+        <List sx={{ width: '100%', minWidth: 450, bgcolor: 'background.paper', margin: 'auto', borderRadius: 2, marginTop: 1 }}>
           <table style={{ width: '97%', overflow: 'auto' }}>
             <thead>
               <tr>
@@ -264,7 +286,7 @@ const TableList: React.FC = () => {
                   </tr>
                 ) : (
                   itemsOnCurrentPage.map((todo, index) => {
-                    const labelId = `checkbox-list-label-${todo._id}`;
+                    const labelId = `checkbox-list-label-${todo.id}`;
                     const priorityColorStyle = {
                       color: todo.priority === 'high' ? 'red' :
                         todo.priority === 'medium' ? 'orange' : 'black'
@@ -275,7 +297,7 @@ const TableList: React.FC = () => {
                     };
     
                     return (
-                      <tr key={todo._id}>
+                      <tr key={todo.id}>
                         <td>
                           <ListItem disablePadding>
                             <ListItemButton role={undefined}>
@@ -290,7 +312,7 @@ const TableList: React.FC = () => {
                         <td style={{ textAlign: 'center' }}>
                           <span style={{ ...priorityBGstyle, color: 'white', padding: 5, paddingTop: 2, borderRadius: 10, textDecoration: todo.status == "done" ? 'line-through' : '', marginRight: 20 }}>{todo.priority}</span>
                         </td>
-                        <td style={{ textDecoration: todo.status == "done" ? 'line-through' : '', paddingLeft: 5}}>{formatDueDate(todo.dueDate)}</td>
+                        <td style={{ textDecoration: todo.status == "done" ? 'line-through' : '', paddingLeft: 5}}>{formatDueDate(todo.due_date)}</td>
                         <td style={{ textDecoration: todo.status == "done"  ? 'line-through' : '', paddingLeft: 5}}>{todo.maker}</td>
                         <td>
                           <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -303,7 +325,7 @@ const TableList: React.FC = () => {
                               editTodo={editTodo}
                               handleEditInputChange={handleEditInputChange}
                               handleCloseBackDrop={handleCloseBackdrop}/>
-                            <IconButton edge="end" onClick={() => deleteList(todo._id)}>
+                            <IconButton edge="end" onClick={() => deleteList(todo.id)}>
                               <DeleteTwoToneIcon />
                             </IconButton>
                           </div>

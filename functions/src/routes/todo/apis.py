@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
-from app.infrastructure.db import db
-from app.todo.models import Todo
-from app.auth.utils import get_token, logged_user
+from infrastructure.db import db
+from routes.todo.models import Todo
+from routes.auth.utils import get_token, logged_user
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -18,8 +18,8 @@ def get_all_todo():
             }), 401
 
         user_info = logged_user(token)
-        user_role, username, user_id = user_info['userRole'], user_info['username'], user_info['userId']
-        print('test', user_role, username, user_id)
+        user_role, username, userid = user_info['userRole'], user_info['username'], user_info['userId']
+        print('test', user_role, username, userid)
 
         if user_role == "admin":
             todos = Todo.query.filter_by(is_deleted=False).all()
@@ -35,7 +35,7 @@ def get_all_todo():
             'id': todo.id,
             'todo': todo.todo,
             'status': todo.status,
-            'due_date' : todo.formatted_due_date,
+            'due_date' : todo.due_date,
             'priority': todo.priority,
             'maker': todo.maker
         } for todo in todos]
@@ -43,7 +43,7 @@ def get_all_todo():
         return jsonify({
             'success': True,
             'message': 'Successfully fetched all todo',
-            'result': todo_list,
+            'result': {'data': todo_list},
             'user': username,
             'role': user_role
         })
@@ -88,7 +88,7 @@ def create_todo():
             'data': {
                 'id': new_todo.id,
                 'todo': new_todo.todo,
-                'due_date' : new_todo.formatted_due_date,
+                'due_date' : new_todo.due_date,
                 'priority': new_todo.priority,
                 'maker': new_todo.maker
             }
@@ -102,8 +102,8 @@ def create_todo():
 
 
 
-@todo_blueprint.route('/<int:todo_id>', methods=['DELETE'])
-def delete_todo(todo_id):
+@todo_blueprint.route('/<int:todoid>', methods=['DELETE'])
+def delete_todo(todoid):
     try:
         token = get_token()
         if not token:
@@ -115,7 +115,7 @@ def delete_todo(todo_id):
         user_info = logged_user(token)
         username = user_info['username']
 
-        todo_to_delete = Todo.query.filter_by(id=todo_id, is_deleted=False).first()
+        todo_to_delete = Todo.query.filter_by(id=todoid, is_deleted=False).first()
 
         if not todo_to_delete:
             return jsonify({
@@ -147,8 +147,8 @@ def delete_todo(todo_id):
         }), 500
     
 
-@todo_blueprint.route('/<int:todo_id>', methods=['PUT'])
-def update_todo(todo_id):
+@todo_blueprint.route('/<int:todoid>', methods=['PUT'])
+def update_todo(todoid):
     try:
         token = get_token()
         if not token:
@@ -160,7 +160,7 @@ def update_todo(todo_id):
         user_info = logged_user(token)
         username = user_info['username']
 
-        todo_update = Todo.query.filter_by(id=todo_id, is_deleted=False).first()
+        todo_update = Todo.query.filter_by(id=todoid, is_deleted=False).first()
 
         if not todo_update:
             return jsonify({
@@ -196,7 +196,7 @@ def update_todo(todo_id):
             'updatedData': {
                 'todo': todo_update.todo,
                 'status': todo_update.status,
-                'dueDate': todo_update.due_date.strftime('%d/%m/%Y')
+                'due_date': todo_update.due_date.strftime('%d/%m/%Y')
             }
         })
 

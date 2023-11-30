@@ -4,10 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-flask-pymongo = "*"
-secure = "*"
-flask-cors = "*"
+firebase-functions = "*"
 
 [dev-packages]
 

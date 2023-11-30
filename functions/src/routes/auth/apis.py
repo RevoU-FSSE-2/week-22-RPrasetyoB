@@ -2,11 +2,11 @@ from flask import Blueprint, request, jsonify
 from flask_bcrypt import Bcrypt
 import jwt
 from datetime import datetime, timedelta
-from app.common.jwt import SECRET_KEY
-from ..user.models import User 
-from app.infrastructure.db import db
+from common.jwt import SECRET_KEY
 from marshmallow import Schema, fields, ValidationError, validates_schema
-from app.common.constants import UserRoleEnum
+from infrastructure.db import db
+from common.constants import UserRoleEnum
+from routes.user.models import User 
 
 auth_blueprint = Blueprint('auth', __name__)
 bcrypt = Bcrypt()
@@ -65,7 +65,7 @@ def login():
         return {"error": "Username or password invalid"}, 400
     
     payload = {
-        'user_id': user.id,
+        'userid': user.id,
         'username': user.username,
         'role': user.role,
         'exp': datetime.utcnow() + timedelta(minutes=15)

@@ -1,6 +1,6 @@
 import jwt
 from flask import request
-from app.common.jwt import SECRET_KEY
+from common.jwt import SECRET_KEY
 
 def get_token():
     auth_header = request.headers.get('Authorization')
