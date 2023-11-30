@@ -29,7 +29,6 @@ def add_secure_headers(response):
     response.headers['Referrer-Policy'] = 'strict-origin'
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['Permissions-Policy'] = "geolocation 'self'; microphone 'none'; camera 'none'"
-
     return response
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Revouprojectweek22@db.xhndjeumvhdjnqvwkuqj.supabase.co:5432/postgres'

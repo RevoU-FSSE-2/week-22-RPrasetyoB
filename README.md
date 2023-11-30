@@ -26,18 +26,20 @@ This is a simple full-stack to-do list application built using Flask for the bac
 - BE :
   
   ```
+  git clone https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB
   cd functions
   pipenv install
   pipenv shell
-  python app.py
+  flask run
   ```
 
 - FE :
   
   ```
+  git clone https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB
   cd hosting
   npm install
-  npm start
+  npm run dev
   ```
 
 ## API End Point
