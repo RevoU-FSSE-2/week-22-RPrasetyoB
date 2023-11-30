@@ -57,7 +57,7 @@ The backend (Flask) communicates with the frontend (React) through a RESTful API
 | Get todolist | GET<br/>/todo           | -                                                                                              | required     | by role: admin will get all todo, user only get todo that he made |
 | Add new todo | POST<br>/todo           | todo, priority<br/>(status auto set to "in progress"<br/> & due_date auto set to 3 days ahead) | required     | -                                                                 |
 | Update todo  | PUT<br>/todo/:id        | todo, status, due_date                                                                         | required     | by username / maker                                               |
-| Delete todo  | DEL<br>/todo/:id        |                                                                                                |              | by username / maker                                               |
+| Delete todo  | DEL<br>/todo/:id        |                                                                                                | required     | by username / maker                                               |
 
 ## Users for test
 
