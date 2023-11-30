@@ -14,7 +14,14 @@ The backend (Flask) communicates with the frontend (React) through a RESTful API
 
 - Postman
 
+## Security Headers
+- BE :
+  
+  ![Screenshot_18](https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB/assets/129088807/9e6b874b-df08-490c-8341-0dbdb8bc6c78)
 
+- FE :
+- 
+  ![Screenshot_17](https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB/assets/129088807/d3becd4e-8a84-4666-a7c6-89f9b572dd9d)
 
 ## Getting Started
 
