@@ -47,7 +47,6 @@ def job_board_api(req: https_fn.Request) -> https_fn.Response:
         return app.full_dispatch_request()
 
 if __name__ == "__main__":
-    app.run(debug=True)
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 80)))
 # with app.app_context():
 #     db_init()
