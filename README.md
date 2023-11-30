@@ -4,6 +4,10 @@
 
 This is a simple full-stack to-do list application built using Flask for the backend and React with TypeScript for the frontend. The app supports CRUD operations and implements Role-Based Access Control (RBAC) for user roles.
 
+The backend (Flask) communicates with the frontend (React) through a RESTful API. The API defines endpoints for CRUD operations on tasks, allowing the frontend to interact seamlessly with the backend.
+
+
+
 ## Technology
 
 - Flask Python
