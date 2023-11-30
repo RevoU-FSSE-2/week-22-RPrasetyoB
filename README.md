@@ -6,8 +6,6 @@ This is a simple full-stack to-do list application built using Flask for the bac
 
 The backend (Flask) communicates with the frontend (React) through a RESTful API. The API defines endpoints for CRUD operations on tasks, allowing the frontend to interact seamlessly with the backend.
 
-
-
 ## Technology
 
 - Flask Python
@@ -16,12 +14,7 @@ The backend (Flask) communicates with the frontend (React) through a RESTful API
 
 - Postman
 
-## API Documentation
 
-- [week22-milestone4](https://documenter.getpostman.com/view/29092304/2s9YeHZqCM)
-- [postmant](https://drive.google.com/file/d/1CnD0QD1OiVSVurDTurRvbVokhHsbxKUe/view?usp=sharing)
-
- 
 
 ## Getting Started
 
@@ -45,6 +38,15 @@ The backend (Flask) communicates with the frontend (React) through a RESTful API
   npm install
   npm run dev
   ```
+
+ 
+
+## API Documentation
+
+- [week22-milestone4](https://documenter.getpostman.com/view/29092304/2s9YeHZqCM)
+- [postmant](https://drive.google.com/file/d/1CnD0QD1OiVSVurDTurRvbVokhHsbxKUe/view?usp=sharing)
+
+ 
 
 ## API End Point
 
