@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+pyjwt = "*"
+flask-bcrypt = "*"
+marshmallow = "*"
+injector = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+flask-sqlalchemy = "*"
+google-cloud-storage = "*"
+google-cloud-logging = "*"
+flask-cors = "*"
+flask-secure-headers = "*"
+flask-security-too = "*"
+flask-talisman = "*"
+flask-security = "*"
+firebase-functions = "*"
+gunicorn = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
