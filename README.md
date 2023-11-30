@@ -77,6 +77,10 @@ The backend (Flask) communicates with the frontend (React) through a RESTful API
 }
 ```
 
+## Website design
+
+![Screenshot_19](https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB/assets/129088807/92b08462-32ea-41fc-afe5-f6598652f470)
+
 ## Security Headers
 - BE :
   
