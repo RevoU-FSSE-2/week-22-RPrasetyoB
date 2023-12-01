@@ -84,11 +84,11 @@ The backend (Flask) communicates with the frontend (React) through a RESTful API
 ## Security Headers
 - BE :
   
-  ![Screenshot_18](https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB/assets/129088807/9e6b874b-df08-490c-8341-0dbdb8bc6c78)
+  ![Screenshot_18](https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB/assets/129088807/dec5df37-621a-4b5e-a9bf-2acf0b10e56d)
 
 - FE :
   
-  ![Screenshot_17](https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB/assets/129088807/d3becd4e-8a84-4666-a7c6-89f9b572dd9d)
+  ![Screenshot_17](https://github.com/RevoU-FSSE-2/week-22-RPrasetyoB/assets/129088807/baada7bb-af58-4799-8303-bf96393830a1)
 
 ## Deployment
 
