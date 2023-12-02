@@ -92,5 +92,5 @@ The backend (Flask) communicates with the frontend (React) through a RESTful API
 
 ## Deployment
 
-- FE  :  https://week22-revou-milestone4.web.app
+- FE  :  https://week22-rpb.web.app
 - BE :  https://week22-rpb-s6tv3qk23q-uc.a.run.app
